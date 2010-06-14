@@ -158,7 +158,7 @@ static const CGFloat kMarginY = 6;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)showActivity:(NSString*)activityText {
   if (nil == _activityView) {
-    _activityView = [[TTActivityLabel alloc] initWithStyle:TTActivityLabelStyleWhiteBox];
+    _activityView = [[TTActivityLabel alloc] initWithStyle:TTActivityLabelStyleBlackBezel];
     [self.view addSubview:_activityView];
   }
 
@@ -581,7 +581,7 @@ static const CGFloat kMarginY = 6;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (NSString*)titleForActivity {
-  return nil;
+  return @"發佈中...";
 }
 
 
