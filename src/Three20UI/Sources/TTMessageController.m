@@ -62,9 +62,7 @@
   if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
     _fields = [[NSArray alloc] initWithObjects:
                [[[TTMessageRecipientField alloc] initWithTitle: TTLocalizedString(@"To:", @"")
-                                                      required: YES] autorelease],
-               [[[TTMessageSubjectField alloc] initWithTitle: TTLocalizedString(@"Subject:", @"")
-                                                    required: NO] autorelease],
+                                                      required: NO] autorelease],
                nil];
 
     self.title = TTLocalizedString(@"New Message", @"");

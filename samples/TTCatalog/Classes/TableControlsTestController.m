@@ -30,7 +30,7 @@
     TTTextEditor* editor = [[[TTTextEditor alloc] init] autorelease];
     editor.font = TTSTYLEVAR(font);
     editor.backgroundColor = TTSTYLEVAR(backgroundColor);
-    editor.autoresizesToText = NO;
+    editor.autoresizesToText = YES;
     editor.minNumberOfLines = 3;
     editor.placeholder = @"TTTextEditor";
 
