@@ -46,6 +46,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (BOOL)textFieldShouldBeginEditing:(UITextField*)textField {
+	//NSLog(@"TTsearch=> textFieldShouldBeginEditing => text: %@", textField.text);
   if ([_delegate respondsToSelector:@selector(textFieldShouldBeginEditing:)]) {
     return [_delegate textFieldShouldBeginEditing:textField];
   } else {
@@ -56,6 +57,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)textFieldDidBeginEditing:(UITextField*)textField {
+	//NSLog(@"TTsearch=> textFieldDidBeginEditing => text: %@", textField.text);
   if ([_delegate respondsToSelector:@selector(textFieldDidBeginEditing:)]) {
     [_delegate textFieldDidBeginEditing:textField];
   }
@@ -64,6 +66,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (BOOL)textFieldShouldEndEditing:(UITextField*)textField {
+	//NSLog(@"TTsearch=> textFieldShouldEndEditing => text: %@", textField.text);
   if ([_delegate respondsToSelector:@selector(textFieldShouldEndEditing:)]) {
     return [_delegate textFieldShouldEndEditing:textField];
   } else {
@@ -74,6 +77,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)textFieldDidEndEditing:(UITextField*)textField {
+	//NSLog(@"TTsearch=> textFieldDidEndEditing => text: %@", textField.text);			
   if ([_delegate respondsToSelector:@selector(textFieldDidEndEditing:)]) {
     [_delegate textFieldDidEndEditing:textField];
   }
@@ -84,6 +88,7 @@
 - (BOOL)                textField: (UITextField*)textField
     shouldChangeCharactersInRange: (NSRange)range
                 replacementString: (NSString*)string {
+	//NSLog(@"in ttsearch shouldChangeCharactersInRange replace=> _%@_ , and currently got string => %@", string, textField.text);
   if (![_textField shouldUpdate:!string.length]) {
     return NO;
   }

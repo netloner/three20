@@ -108,6 +108,7 @@ static const CGFloat kMinCursorWidth  = 50;
         cell.width, cell.height);
       _cursorOrigin.x += cell.frame.size.width + kPaddingX;
     }
+	  NSLog(@"Linecount for cells => %d", _lineCount);
 
     CGFloat remainingWidth = self.width - (_cursorOrigin.x + marginRight);
     if (remainingWidth < kMinCursorWidth) {
@@ -127,6 +128,8 @@ static const CGFloat kMinCursorWidth  = 50;
   CGFloat newHeight = [self layoutCells];
   if (previousHeight && newHeight != previousHeight) {
     self.height = newHeight;
+    UIScrollView* scrollView = (UIScrollView*)[self ancestorOrSelfWithClass:[UIScrollView class]];
+	scrollView.contentSize = CGSizeMake(self.width, self.height);
     [self setNeedsDisplay];
 
     SEL sel = @selector(textFieldDidResize:);
@@ -206,7 +209,12 @@ static const CGFloat kMinCursorWidth  = 50;
     _cursorOrigin.x = kPaddingX;
     _cursorOrigin.y = [self marginY];
     if (self.leftView) {
-      _cursorOrigin.x += self.leftView.width + kPaddingX/2;
+		if (_lineCount > 1) {
+			_cursorOrigin.x += self.leftView.width + kPaddingX/2;
+		}
+		else{
+			_cursorOrigin.x += kPaddingX/2;
+		} 
     }
   }
 
@@ -224,7 +232,11 @@ static const CGFloat kMinCursorWidth  = 50;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
-  [super touchesBegan:touches withEvent:event];
+	NSLog(@"In TTPickerTextfield.m, touchesBegan.....");
+	[super touchesBegan:touches withEvent:event];
+
+ //Add by Edward
+ //[self.nextResponder touchesBegan:touches withEvent:event];
 
   if (_dataSource) {
     UITouch* touch = [touches anyObject];
@@ -248,6 +260,7 @@ static const CGFloat kMinCursorWidth  = 50;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setText:(NSString*)text {
+	NSLog(@"setText in TTPicker => %@",text);
   if (_dataSource) {
     [self updateHeight];
   }
@@ -334,7 +347,7 @@ static const CGFloat kMinCursorWidth  = 50;
   CGFloat visibleHeight = [self heightWithLines:1];
   CGFloat keyboardHeight = withKeyboard ? TTKeyboardHeight() : 0;
   CGFloat tableHeight = TTScreenBounds().size.height - (y + visibleHeight + keyboardHeight);
-
+	NSLog(@"IN TTPickerTextField, rectForSearchResults, tableHeight => %f", tableHeight);
   return CGRectMake(0, self.bottom-1, superview.frame.size.width, tableHeight+1);
 }
 
@@ -401,7 +414,7 @@ static const CGFloat kMinCursorWidth  = 50;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)addCellWithObject:(id)object {
   TTPickerViewCell* cell = [[[TTPickerViewCell alloc] init] autorelease];
-
+	NSLog(@"in TTPickerTextField.m, addCellWithObject =>%@", object);
   NSString* label = [self labelForObject:object];
 
   cell.object = object;
@@ -488,17 +501,19 @@ static const CGFloat kMinCursorWidth  = 50;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)scrollToVisibleLine:(BOOL)animated {
-  if (self.editing) {
-    UIScrollView* scrollView = (UIScrollView*)[self ancestorOrSelfWithClass:[UIScrollView class]];
-    if (scrollView) {
-      [scrollView setContentOffset:CGPointMake(0, self.top) animated:animated];
-    }
-  }
+//	NSLog(@"IN TTPicker scrollToVisibleLine");
+//  if (self.editing) {
+//    UIScrollView* scrollView = (UIScrollView*)[self ancestorOrSelfWithClass:[UIScrollView class]];
+//    if (scrollView) {
+//      [scrollView setContentOffset:CGPointMake(0, self.top) animated:animated];
+//    }
+//  }
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)scrollToEditingLine:(BOOL)animated {
+	//NSLog(@"IN TTPicker scrollToEditingLine");	
   UIScrollView* scrollView = (UIScrollView*)[self ancestorOrSelfWithClass:[UIScrollView class]];
   if (scrollView) {
     CGFloat offset = _lineCount == 1 ? 0 : [self topOfLine:_lineCount-1];
