@@ -160,15 +160,28 @@ class Pbxproj(object):
 		if project_data is None:
 			return None
 
-		result = re.search('([A-Z0-9]+) \/\* '+re.escape(self.target)+' \*\/ = {\n[ \t]+isa = PBXNativeTarget;(?:.|\n)+?([A-Z0-9]+) \/\* Frameworks \*\/,(?:.|\n)+?dependencies = \(\n((?:[ \t]+[A-Z0-9]+ \/\* PBXTargetDependency \*\/,\n)*)[ \t]*\);\n(?:.|\n)+?productReference = ([A-Z0-9]+) \/\* (.+?) \*\/;',
+		result = re.search('([A-Z0-9]+) \/\* '+re.escape(self.target)+' \*\/ = {\n[ \t]+isa = PBXNativeTarget;(?:.|\n)+?buildPhases = \(\n((?:.|\n)+?)\);\n(?:.|\n)+?dependencies = \(\n((?:[ \t]+[A-Z0-9]+ \/\* PBXTargetDependency \*\/,\n)*)[ \t]*\);\n(?:.|\n)+?productReference = ([A-Z0-9]+) \/\* (.+?) \*\/;',
 		                   project_data)
 	
 		if not result:
 			return None
 	
-		(self._guid, self._frameworks_guid, dependency_set, self._product_guid, self._product_name, ) = result.groups()
+		(self._guid, buildPhases, dependency_set, self._product_guid, self._product_name, ) = result.groups()
 		dependency_guids = re.findall('[ \t]+([A-Z0-9]+) \/\* PBXTargetDependency \*\/,\n', dependency_set)
 
+		match = re.search('([A-Z0-9]+) \/\* Resources \*\/', buildPhases)
+		if match:
+			(self._resources_guid, ) = match.groups()
+		else:
+			self._resources_guid = None
+		
+		match = re.search('([A-Z0-9]+) \/\* Frameworks \*\/', buildPhases)
+		if not match:
+			logging.error("Couldn't find the Frameworks phase.")
+			return None
+
+		(self._frameworks_guid, ) = match.groups()
+		
 		if not result:
 			return None
 
@@ -254,28 +267,28 @@ class Pbxproj(object):
 
 		return fileref_hash
 
-	# Add a file to the Frameworks PBXGroup.
+	# Add a file to the given PBXGroup.
 	#
 	# <guid> /* <name> */,
-	def add_file_to_frameworks(self, name, guid):
+	def add_file_to_group(self, name, guid, group):
 		project_data = self.get_project_data()
 
-		match = re.search('\/\* Frameworks \*\/ = \{\n[ \t]+isa = PBXGroup;\n[ \t]+children = \(\n((?:.|\n)+?)\);', project_data)
+		match = re.search('\/\* '+re.escape(group)+' \*\/ = \{\n[ \t]+isa = PBXGroup;\n[ \t]+children = \(\n((?:.|\n)+?)\);', project_data)
 		if not match:
-			logging.error("Couldn't find the Frameworks children.")
+			logging.error("Couldn't find the "+group+" children.")
 			return False
-		
+
 		(children,) = match.groups()
 		match = re.search(re.escape(guid), children)
 		if match:
-			logging.info("This file is already a member of the Frameworks group.")
+			logging.info("This file is already a member of the "+name+" group.")
 		else:
-			match = re.search('\/\* Frameworks \*\/ = \{\n[ \t]+isa = PBXGroup;\n[ \t]+children = \(\n', project_data)
-		
+			match = re.search('\/\* '+re.escape(group)+' \*\/ = \{\n[ \t]+isa = PBXGroup;\n[ \t]+children = \(\n', project_data)
+
 			if not match:
-				logging.error("Couldn't find the Frameworks group.")
+				logging.error("Couldn't find the "+group+" group.")
 				return False
-		
+
 			pbxgroup = "\t\t\t\t"+guid+" /* "+name+" */,\n"
 			project_data = project_data[:match.end()] + pbxgroup + project_data[match.end():]
 
@@ -283,39 +296,66 @@ class Pbxproj(object):
 
 		return True
 
-	def add_file_to_frameworks_phase(self, name, guid):
+	# Add a file to the Frameworks PBXGroup.
+	#
+	# <guid> /* <name> */,
+	def add_file_to_frameworks(self, name, guid):
+		return self.add_file_to_group(name, guid, 'Frameworks')
+
+	# Add a file to the Resources PBXGroup.
+	#
+	# <guid> /* <name> */,
+	def add_file_to_resources(self, name, guid):
+		return self.add_file_to_group(name, guid, 'Resources')
+
+	def add_file_to_phase(self, name, guid, phase_guid, phase):
 		project_data = self.get_project_data()
-		
-		match = re.search(self._frameworks_guid+" \/\* Frameworks \*\/ = {(?:.|\n)+?files = \(((?:.|\n)+?)\);", project_data)
-		
+
+		match = re.search(re.escape(phase_guid)+" \/\* "+re.escape(phase)+" \*\/ = {(?:.|\n)+?files = \(((?:.|\n)+?)\);", project_data)
+
 		if not match:
-			logging.error("Couldn't find the frameworks.")
+			logging.error("Couldn't find the "+phase+" phase.")
 			return False
-		
+
 		(files, ) = match.groups()
 
 		match = re.search(re.escape(guid), files)
 		if match:
-			logging.info("The framework has already been added.")
+			logging.info("The file has already been added.")
 		else:
-			match = re.search(self._frameworks_guid+" \/\* Frameworks \*\/ = {(?:.|\n)+?files = \(\n", project_data)
+			match = re.search(re.escape(phase_guid)+" \/\* "+phase+" \*\/ = {(?:.|\n)+?files = \(\n", project_data)
 			if not match:
-				logging.error("Couldn't find the framework files")
+				logging.error("Couldn't find the "+phase+" files")
 				return False
-			
-			frameworktext = "\t\t\t\t"+guid+" /* "+name+" in Frameworks */,\n"
+
+			frameworktext = "\t\t\t\t"+guid+" /* "+name+" in "+phase+" */,\n"
 			project_data = project_data[:match.end()] + frameworktext + project_data[match.end():]
 
 		self.set_project_data(project_data)
 
 		return True
 
+	def get_rel_path_to_products_dir(self):
+		project_path = os.path.dirname(os.path.abspath(self.xcodeprojpath()))
+		build_path = os.path.join(os.path.join(os.path.dirname(Paths.src_dir), 'Build'), 'Products')
+		return relpath(project_path, build_path)
+
+	def add_file_to_frameworks_phase(self, name, guid):
+		return self.add_file_to_phase(name, guid, self._frameworks_guid, 'Frameworks')
+
+	def add_file_to_resources_phase(self, name, guid):
+		if self._resources_guid is None:
+			logging.error("No resources build phase found in the destination project")
+			return False
+
+		return self.add_file_to_phase(name, guid, self._resources_guid, 'Resources')
+
 	def add_header_search_path(self, configuration):
 		project_path = os.path.dirname(os.path.abspath(self.xcodeprojpath()))
 		build_path = os.path.join(os.path.join(os.path.join(os.path.dirname(Paths.src_dir), 'Build'), 'Products'), 'three20')
 		rel_path = relpath(project_path, build_path)
 
-		return self.add_build_setting(configuration, 'HEADER_SEARCH_PATHS', rel_path)
+		return self.add_build_setting(configuration, 'HEADER_SEARCH_PATHS', '"'+rel_path+'"')
 	
 	def add_build_setting(self, configuration, setting_name, value):
 		project_data = self.get_project_data()
@@ -333,22 +373,31 @@ class Pbxproj(object):
 		match = re.search(re.escape(setting_name)+' = ((?:.|\n)+?);', build_settings)
 
 		if not match:
-			settingtext = '\t\t\t\t'+setting_name+' = "'+value+'";\n'
+			# Add a brand new build setting. No checking for existing settings necessary.
+			settingtext = '\t\t\t\t'+setting_name+' = '+value+';\n'
 
 			project_data = project_data[:settings_start] + settingtext + project_data[settings_start:]
 		else:
+			# Build settings already exist. Is there one or many?
 			(search_paths,) = match.groups()
 			if re.search('\(\n', search_paths):
+				# Many
 				match = re.search(re.escape(value), search_paths)
 				if not match:
-					match = re.search(re.escape(setting_name)+' = \(\n', build_settings)
+					# If value has any spaces in it, Xcode will split it up into
+					# multiple entries.
+					escaped_value = re.escape(value).replace(' ', '",\n[ \t]+"')
+					match = re.search(escaped_value, search_paths)
+					if not match:
+						match = re.search(re.escape(setting_name)+' = \(\n', build_settings)
 
-					build_settings = build_settings[:match.end()] + '\t\t\t\t\t"'+value+'",\n' + build_settings[match.end():]
-					project_data = project_data[:settings_start] + build_settings + project_data[settings_end:]
+						build_settings = build_settings[:match.end()] + '\t\t\t\t\t'+value+',\n' + build_settings[match.end():]
+						project_data = project_data[:settings_start] + build_settings + project_data[settings_end:]
 			else:
+				# One
 				if search_paths != value:
 					existing_path = search_paths
-					path_set = '(\n\t\t\t\t\t"'+value+'",\n\t\t\t\t\t'+existing_path+'\n\t\t\t\t)'
+					path_set = '(\n\t\t\t\t\t'+value+',\n\t\t\t\t\t'+existing_path+'\n\t\t\t\t)'
 					build_settings = build_settings[:match.start(1)] + path_set + build_settings[match.end(1):]
 					project_data = project_data[:settings_start] + build_settings + project_data[settings_end:]
 
@@ -373,6 +422,25 @@ class Pbxproj(object):
 		if not self.add_file_to_frameworks_phase(framework, libfile_hash):
 			return False
 		
+		return True
+
+	def add_bundle(self):
+		tthash_base = self.get_hash_base('Three20.bundle')
+
+		project_path = os.path.dirname(os.path.abspath(self.xcodeprojpath()))
+		build_path = os.path.join(Paths.src_dir, 'Three20.bundle')
+		rel_path = relpath(project_path, build_path)
+		
+		fileref_hash = self.add_filereference('Three20.bundle', 'plug-in', tthash_base+'0', rel_path, 'SOURCE_ROOT')
+
+		libfile_hash = self.add_buildfile('Three20.bundle', fileref_hash, tthash_base+'1')
+
+		if not self.add_file_to_resources('Three20.bundle', fileref_hash):
+			return False
+
+		if not self.add_file_to_resources_phase('Three20.bundle', libfile_hash):
+			return False
+
 		return True
 
 	def add_dependency(self, dep):
@@ -590,9 +658,9 @@ class Pbxproj(object):
 		if match:
 			logging.info("This product group already exists.")
 			(children, ) = match.groups()
-			match = re.search('([A-Z0-9]+) \/\* '+dep._product_name+' \*\/', children)
+			match = re.search('([A-Z0-9]+) \/\* '+re.escape(dep._product_name)+' \*\/', children)
 			if not match:
-				logging.error("No product found.")
+				logging.error("No product found")
 				return False
 				# TODO: Add this product.
 			else:
@@ -668,7 +736,7 @@ class Pbxproj(object):
 		if not referenceExists:
 			match = re.search('\/\* Begin PBXReferenceProxy section \*\/\n', project_data)
 
-			referenceproxytext = "\t\t"+lib_hash+" /* "+dep._product_name+" */ = {\n\t\t\tisa = PBXReferenceProxy;\n\t\t\tfileType = archive.ar;\n\t\t\tpath = "+dep._product_name+";\n\t\t\tremoteRef = "+targetproduct_hash+" /* PBXContainerItemProxy */;\n\t\t\tsourceTree = BUILT_PRODUCTS_DIR;\n\t\t};\n"
+			referenceproxytext = "\t\t"+lib_hash+" /* "+dep._product_name+" */ = {\n\t\t\tisa = PBXReferenceProxy;\n\t\t\tfileType = archive.ar;\n\t\t\tpath = \""+dep._product_name+"\";\n\t\t\tremoteRef = "+targetproduct_hash+" /* PBXContainerItemProxy */;\n\t\t\tsourceTree = BUILT_PRODUCTS_DIR;\n\t\t};\n"
 			project_data = project_data[:match.end()] + referenceproxytext + project_data[match.end():]
 
 		logging.info("Done: Created reference proxy.")

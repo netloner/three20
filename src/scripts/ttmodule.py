@@ -78,6 +78,8 @@ def add_modules_to_project(module_names, project, configs):
 	for k,v in modules.items():
 		if v.name == 'Three20UI':
 			project.add_framework('QuartzCore.framework')
+		if v.name == 'Three20Core':
+			project.add_bundle()
 
 		if not project.add_dependency(v):
 			failed.append(k)
@@ -85,8 +87,9 @@ def add_modules_to_project(module_names, project, configs):
 	if configs:
 		for config in configs:
 			project.add_header_search_path(config)
-			project.add_build_setting(config, 'OTHER_LDFLAGS', '-ObjC')
-			project.add_build_setting(config, 'OTHER_LDFLAGS', '-all_load')
+
+			for k,v in modules.items():
+				project.add_build_setting(config, 'OTHER_LDFLAGS', '"-force_load '+project.get_rel_path_to_products_dir()+'/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)/'+v._product_name+'"')
 
 	if len(failed) > 0:
 		logging.error("Some dependencies failed to be added:")
