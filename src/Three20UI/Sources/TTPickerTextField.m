@@ -14,6 +14,8 @@
 // limitations under the License.
 //
 
+#import "RegexKitLite.h"
+
 #import "Three20UI/TTPickerTextField.h"
 
 // UI
@@ -121,15 +123,16 @@ static const CGFloat kMinCursorWidth  = 50;
   return _cursorOrigin.y + fontHeight + marginY;
 }
 
-
+//By Edward: main height change handling function for TTPickertextfield
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)updateHeight {
   CGFloat previousHeight = self.height;
   CGFloat newHeight = [self layoutCells];
+
+		
   if (previousHeight && newHeight != previousHeight) {
     self.height = newHeight;
-    UIScrollView* scrollView = (UIScrollView*)[self ancestorOrSelfWithClass:[UIScrollView class]];
-	scrollView.contentSize = CGSizeMake(self.width, self.height);
+	[self updateScrollViewHeight];
     [self setNeedsDisplay];
 
     SEL sel = @selector(textFieldDidResize:);
@@ -198,6 +201,32 @@ static const CGFloat kMinCursorWidth  = 50;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark -
+#pragma mark By Edward
+
+-(void) updateScrollViewHeight{
+	CGFloat smsToolbarY;
+    UIScrollView* scrollView = (UIScrollView*)[self ancestorOrSelfWithClass:[UIScrollView class]];
+	for (UIView* view in scrollView.superview.subviews) {
+		if ([view isKindOfClass:[UIToolbar class]]) {
+			UIToolbar *smsViewToolbar = (UIToolbar *)view;
+			smsToolbarY = smsViewToolbar.frame.origin.y;
+			NSLog(@"get toolbar y => %f", smsViewToolbar.frame.origin.y);
+		}
+	}	  
+	if (self.height > smsToolbarY) {
+		scrollView.frame = CGRectMake(0, 0, self.width, smsToolbarY);
+	}
+	else {
+		scrollView.frame = CGRectMake(0, 0, self.width, self.height);
+	}
+	
+	
+	scrollView.contentSize = CGSizeMake(self.width, self.height);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
 #pragma mark UIView
 
 
@@ -229,7 +258,13 @@ static const CGFloat kMinCursorWidth  = 50;
   return CGSizeMake(size.width, height);
 }
 
-
+-(BOOL) becomeFirstResponder{
+	[super becomeFirstResponder];
+	[self updateScrollViewHeight];
+	NSLog(@"TTPickerTextField becoming first responder!!");
+	//[self updateHeight];
+	return YES;
+}
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
 	NSLog(@"In TTPickerTextfield.m, touchesBegan.....");
@@ -343,12 +378,13 @@ static const CGFloat kMinCursorWidth  = 50;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (CGRect)rectForSearchResults:(BOOL)withKeyboard {
   UIView* superview = self.superviewForSearchResults;
-  CGFloat y = superview.ttScreenY;
+  //CGFloat y = superview.ttScreenY;
+  CGFloat y = 50.0;	
   CGFloat visibleHeight = [self heightWithLines:1];
   CGFloat keyboardHeight = withKeyboard ? TTKeyboardHeight() : 0;
   CGFloat tableHeight = TTScreenBounds().size.height - (y + visibleHeight + keyboardHeight);
 	NSLog(@"IN TTPickerTextField, rectForSearchResults, tableHeight => %f", tableHeight);
-  return CGRectMake(0, self.bottom-1, superview.frame.size.width, tableHeight+1);
+  return CGRectMake(0, 40, superview.frame.size.width, tableHeight+1);
 }
 
 
@@ -394,6 +430,19 @@ static const CGFloat kMinCursorWidth  = 50;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)textFieldDidEndEditing {
+    NSCharacterSet* whitespace = [NSCharacterSet whitespaceCharacterSet];
+	self.text = [self.text stringByTrimmingCharactersInSet:whitespace];	
+	NSString * resultStr = [self.text stringByReplacingOccurrencesOfRegex:@"\\s+" withString:@":"];
+	resultStr = [resultStr stringByReplacingOccurrencesOfRegex:@"(,|;|\\.)" withString:@":"];
+	resultStr = [resultStr stringByReplacingOccurrencesOfRegex:@"-" withString:@""];	
+	resultStr = [resultStr stringByReplacingOccurrencesOfRegex:@":+" withString:@":"];	
+	NSArray *reciviers = [resultStr componentsSeparatedByString: @":"];
+	for (NSString *recivier  in reciviers) {
+		if ([recivier isMatchedByRegex:@"\\d+"]) {
+			[self addCellWithObject:[TTTableTextItem itemWithText:recivier URL:recivier]];
+		}
+	}
+	NSLog(@"TTPickerTextField textFieldDidEndEditing, lefted text => ___%@___", resultStr);
   if (_selectedCell) {
     self.selectedCell = nil;
   }
@@ -413,23 +462,33 @@ static const CGFloat kMinCursorWidth  = 50;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)addCellWithObject:(id)object {
-  TTPickerViewCell* cell = [[[TTPickerViewCell alloc] init] autorelease];
-	NSLog(@"in TTPickerTextField.m, addCellWithObject =>%@", object);
-  NSString* label = [self labelForObject:object];
 
-  cell.object = object;
-  cell.label = label;
-  cell.font = self.font;
-  [_cellViews addObject:cell];
-  [self addSubview:cell];
+	BOOL isExist = NO;
+	for (id cell in self.cells) {
+		if ([[cell URL] isEqualToString:[object URL]]) {
+			isExist = YES;
+		}
+	}		  
+	if (!isExist) {
+		TTPickerViewCell* cell = [[[TTPickerViewCell alloc] init] autorelease];
+		NSLog(@"in TTPickerTextField.m, addCellWithObject =>%@", object);
+		NSString* label = [self labelForObject:object];
+		
+		cell.object = object;
+		cell.label = label;
+		cell.font = self.font;
+		[_cellViews addObject:cell];	
+		[self addSubview:cell];
+	}
 
-  // Reset text so the cursor moves to be at the end of the cellViews
-  self.text = kEmpty;
 
-  SEL sel = @selector(textField:didAddCellAtIndex:);
-  if ([self.delegate respondsToSelector:sel]) {
-    [self.delegate performSelector:sel withObject:self withObject:(id)_cellViews.count-1];
-  }
+	// Reset text so the cursor moves to be at the end of the cellViews
+	self.text = kEmpty;
+
+	SEL sel = @selector(textField:didAddCellAtIndex:);
+	if ([self.delegate respondsToSelector:sel]) {
+		[self.delegate performSelector:sel withObject:self withObject:(id)_cellViews.count-1];
+	}
 }
 
 

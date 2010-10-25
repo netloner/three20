@@ -254,7 +254,9 @@ static const CGFloat kUITextViewVerticalPadding = 6;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (BOOL)becomeFirstResponder {
-  return [[self activeTextField] becomeFirstResponder];
+
+	NSLog(@"TTTextEditor becoming first responder!!");	
+	return [[self activeTextField] becomeFirstResponder];
 }
 
 

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		379EB271127582E4008D5AE6 /* RegexKitLite.h in Headers */ = {isa = PBXBuildFile; fileRef = 379EB26F127582E4008D5AE6 /* RegexKitLite.h */; };
+		379EB272127582E4008D5AE6 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 379EB270127582E4008D5AE6 /* RegexKitLite.m */; };
 		665A553C1264E4310032D0BE /* libThree20Core-Xcode3.2.5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66FC2A501264E1FA00F56B19 /* libThree20Core-Xcode3.2.5.a */; };
 		665A553D1264E4310032D0BE /* libThree20Network-Xcode3.2.5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66FC2A5C1264E1FA00F56B19 /* libThree20Network-Xcode3.2.5.a */; };
 		665A553E1264E4310032D0BE /* libThree20Style-Xcode3.2.5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66FC2A681264E1FA00F56B19 /* libThree20Style-Xcode3.2.5.a */; };
@@ -1244,6 +1246,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		379EB26F127582E4008D5AE6 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
+		379EB270127582E4008D5AE6 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		66FC2AA71264E2DA00F56B19 /* Xcode324iOS41TestSuiteWorkaround.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Xcode324iOS41TestSuiteWorkaround.m; path = ../UnitTests/Xcode324iOS41TestSuiteWorkaround.m; sourceTree = SOURCE_ROOT; };
 		66FC2BC81264E3A400F56B19 /* libThree20UI-Xcode3.2.5.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libThree20UI-Xcode3.2.5.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		66FC2BE61264E3A500F56B19 /* UIUnitTests-Xcode3.2.5.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "UIUnitTests-Xcode3.2.5.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1600,6 +1604,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				379EB26F127582E4008D5AE6 /* RegexKitLite.h */,
+				379EB270127582E4008D5AE6 /* RegexKitLite.m */,
 				6E6454731184D2CD00F08CB1 /* Three20UI.h */,
 				6E6454921184D3ED00F08CB1 /* Three20UI+Additions.h */,
 				6E6458CB11875F8400F08CB1 /* Three20UI_Prefix.pch */,
@@ -3005,6 +3011,7 @@
 				6E86A8DB118CBF7500662DA5 /* TTNavigatorWindow.h in Headers */,
 				6E60820311B0C32600C93CD4 /* TTNavigationController.h in Headers */,
 				6ECCA60011C0C105002296C7 /* TTLauncherHighlightView.h in Headers */,
+				379EB271127582E4008D5AE6 /* RegexKitLite.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3916,6 +3923,7 @@
 				6E86A8EC118CBF8E00662DA5 /* TTNavigatorWindow.m in Sources */,
 				6E60820111B0C31400C93CD4 /* TTNavigationController.m in Sources */,
 				6ECCA5FE11C0C0F6002296C7 /* TTLauncherHighlightView.m in Sources */,
+				379EB272127582E4008D5AE6 /* RegexKitLite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4365,7 +4373,10 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-licucore",
+					"-ObjC",
+				);
 				PREBINDING = NO;
 			};
 			name = Debug;

@@ -118,6 +118,7 @@ static const CGFloat kDesiredTableHeight = 150;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)showDarkScreen:(BOOL)show {
+  NSLog(@"In TTSearchField => showDarkScreen");
   if (show && !_screenView) {
     _screenView = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
     _screenView.backgroundColor = TTSTYLEVAR(screenBackgroundColor);
@@ -163,7 +164,7 @@ static const CGFloat kDesiredTableHeight = 150;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)dispatchUpdate:(NSTimer*)timer {
-	NSLog(@"delayed 0.5sec => %@", self.text);
+	//NSLog(@"delayed 0.3sec => %@", self.text);
   _searchTimer = nil;
   [self autoSearch];
 }
@@ -173,7 +174,7 @@ static const CGFloat kDesiredTableHeight = 150;
 - (void)delayedUpdate {
   [_searchTimer invalidate];
   //WTF! delayed Needs to be set to > 0 secs for chinese handwriting!
-  _searchTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self
+  _searchTimer = [NSTimer scheduledTimerWithTimeInterval:0.3 target:self
     selector:@selector(dispatchUpdate:) userInfo:nil repeats:NO];
 }
 
@@ -341,12 +342,11 @@ static const CGFloat kDesiredTableHeight = 150;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)didEndEditing {
-		NSLog(@"in TTSearchTextField.m, didEndEditing");
+  NSLog(@"in TTSearchTextField.m, didEndEditing");
   if (_dataSource) {
     UIScrollView* scrollView = (UIScrollView*)[self ancestorOrSelfWithClass:[UIScrollView class]];
-    scrollView.scrollEnabled = YES;
     scrollView.scrollsToTop = YES;
-
+	scrollView.frame = CGRectMake(0, 0, 320, 50);
     [self showSearchResults:NO];
 
     if (_showsDoneButton) {
@@ -442,7 +442,7 @@ static const CGFloat kDesiredTableHeight = 150;
       [superview.superview addSubview:_tableView];
 
       if (_tableView.separatorStyle != UITableViewCellSeparatorStyleNone) {
-        [superview addSubview:_shadowView];
+        [superview.superview addSubview:_shadowView];
       }
     }
 
