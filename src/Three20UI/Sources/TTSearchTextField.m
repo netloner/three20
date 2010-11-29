@@ -154,6 +154,8 @@ static const CGFloat kDesiredTableHeight = 150;
 }
 
 
+//By Edward => How to autosearch? ans: TTSearchTextFieldInternal textField  shouldChangeCharactersInRange => TTSearchTextField shouldUpdate => dealyedUpdate => dispatchUpdate => self autosearch => self search => Mock search...
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)autoSearch {
   if (_searchesAutomatically && self.text.length) {
@@ -189,7 +191,9 @@ static const CGFloat kDesiredTableHeight = 150;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)reloadTable {
+
   [_dataSource tableViewDidLoadModel:self.tableView];
+	
 	//NSLog(@"in TTSearchTextField.m, reloadTable");
   if ([self hasSearchResults]) {
 	NSLog(@"in TTSearchTextField.m, hasSearchResults");	  
@@ -422,7 +426,7 @@ static const CGFloat kDesiredTableHeight = 150;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)showSearchResults:(BOOL)show {
-	//NSLog(@"in TTSearchTextField.m, showSearchResults");
+  NSLog(@"in TTSearchTextField.m, showSearchResults");
   if (show && _dataSource) {
     self.tableView;
 

@@ -1248,6 +1248,7 @@
 /* Begin PBXFileReference section */
 		379EB26F127582E4008D5AE6 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		379EB270127582E4008D5AE6 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
+		37CD817512A3430500E53064 /* ReadMeByEdward */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReadMeByEdward; sourceTree = "<group>"; };
 		66FC2AA71264E2DA00F56B19 /* Xcode324iOS41TestSuiteWorkaround.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Xcode324iOS41TestSuiteWorkaround.m; path = ../UnitTests/Xcode324iOS41TestSuiteWorkaround.m; sourceTree = SOURCE_ROOT; };
 		66FC2BC81264E3A400F56B19 /* libThree20UI-Xcode3.2.5.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libThree20UI-Xcode3.2.5.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		66FC2BE61264E3A500F56B19 /* UIUnitTests-Xcode3.2.5.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "UIUnitTests-Xcode3.2.5.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1604,6 +1605,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				37CD817512A3430500E53064 /* ReadMeByEdward */,
 				379EB26F127582E4008D5AE6 /* RegexKitLite.h */,
 				379EB270127582E4008D5AE6 /* RegexKitLite.m */,
 				6E6454731184D2CD00F08CB1 /* Three20UI.h */,
@@ -3135,7 +3137,7 @@
 			productReference = BEF31F3A0F352DF5000DE5D2 /* libThree20UI.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		EB9E6C6110B6A8F800DE563C /* Three20UICommonUnitTests */ = {
+		EB9E6C6110B6A8F800DE563C /* Three20UIUnitTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EB9E6C6710B6A8F900DE563C /* Build configuration list for PBXNativeTarget "Three20UIUnitTests" */;
 			buildPhases = (
@@ -3206,7 +3208,7 @@
 				BEF31F390F352DF5000DE5D2 /* Three20UI */,
 				66FC2AB51264E3A400F56B19 /* Three20UI-Xcode3.2.5 */,
 				66FE8CCB1264E960001E0674 /* Three20UI-Xcode3.2.2 */,
-				EB9E6C6110B6A8F800DE563C /* Three20UICommonUnitTests */,
+				EB9E6C6110B6A8F800DE563C /* Three20UIUnitTests */,
 				66FC2BC91264E3A500F56B19 /* Three20UIUnitTests-Xcode3.2.5 */,
 				66FE8DDF1264E960001E0674 /* Three20UIUnitTests-Xcode3.2.2 */,
 			);

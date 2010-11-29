@@ -50,6 +50,7 @@ static const CGFloat kMinCursorWidth  = 50;
 @synthesize cellViews     = _cellViews;
 @synthesize selectedCell  = _selectedCell;
 @synthesize lineCount     = _lineCount;
+@synthesize projectDelegate = _projectDelegate;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,7 +77,6 @@ static const CGFloat kMinCursorWidth  = 50;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)dealloc {
   TT_RELEASE_SAFELY(_cellViews);
-
   [super dealloc];
 }
 
@@ -95,6 +95,7 @@ static const CGFloat kMinCursorWidth  = 50;
   _cursorOrigin.y = marginY;
   _lineCount = 1;
 
+
   if (self.width) {
     for (TTPickerViewCell* cell in _cellViews) {
       [cell sizeToFit];
@@ -109,8 +110,9 @@ static const CGFloat kMinCursorWidth  = 50;
       cell.frame = CGRectMake(_cursorOrigin.x, _cursorOrigin.y-kCellPaddingY,
         cell.width, cell.height);
       _cursorOrigin.x += cell.frame.size.width + kPaddingX;
+	
     }
-	  NSLog(@"Linecount for cells => %d", _lineCount);
+
 
     CGFloat remainingWidth = self.width - (_cursorOrigin.x + marginRight);
     if (remainingWidth < kMinCursorWidth) {
@@ -239,10 +241,10 @@ static const CGFloat kMinCursorWidth  = 50;
     _cursorOrigin.y = [self marginY];
     if (self.leftView) {
 		if (_lineCount > 1) {
-			_cursorOrigin.x += self.leftView.width + kPaddingX/2;
+			_cursorOrigin.x += kPaddingX/2;
 		}
 		else{
-			_cursorOrigin.x += kPaddingX/2;
+			_cursorOrigin.x += self.leftView.width + kPaddingX/2;			
 		} 
     }
   }
@@ -295,7 +297,7 @@ static const CGFloat kMinCursorWidth  = 50;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setText:(NSString*)text {
-	NSLog(@"setText in TTPicker => %@",text);
+	//NSLog(@"setText in TTPicker => __%@__",text);
   if (_dataSource) {
     [self updateHeight];
   }
@@ -439,7 +441,7 @@ static const CGFloat kMinCursorWidth  = 50;
 	NSArray *reciviers = [resultStr componentsSeparatedByString: @":"];
 	for (NSString *recivier  in reciviers) {
 		if ([recivier isMatchedByRegex:@"\\d+"]) {
-			[self addCellWithObject:[TTTableTextItem itemWithText:recivier URL:recivier]];
+			[self addCellWithObject:[self.projectDelegate createCellWithPhone:recivier]];
 		}
 	}
 	NSLog(@"TTPickerTextField textFieldDidEndEditing, lefted text => ___%@___", resultStr);
@@ -464,11 +466,24 @@ static const CGFloat kMinCursorWidth  = 50;
 - (void)addCellWithObject:(id)object {
 
 	BOOL isExist = NO;
-	for (id cell in self.cells) {
-		if ([[cell URL] isEqualToString:[object URL]]) {
-			isExist = YES;
+	if ([[object abrecord_type] isEqualToString:@"contact"] || [[object abrecord_type] isEqualToString:@"group"]) {
+		for (TTTableTextItem * cell in self.cells) {
+			if (cell.abrecord_id > 0) {
+				if (cell.abrecord_id == [object abrecord_id]) {
+					isExist = YES;
+				}				
+			}
 		}
-	}		  
+	}
+	else {
+		for (TTTableTextItem * cell in self.cells) {
+			if ([cell.phone isEqualToString:[object phone]]) {
+				isExist = YES;
+			}
+		}
+	}
+
+		  
 	if (!isExist) {
 		TTPickerViewCell* cell = [[[TTPickerViewCell alloc] init] autorelease];
 		NSLog(@"in TTPickerTextField.m, addCellWithObject =>%@", object);

@@ -18,10 +18,18 @@
 #import "Three20UI/TTTableLinkedItem.h"
 
 @interface TTTableTextItem : TTTableLinkedItem {
-  NSString* _text;
+	NSString* _text;
+	NSString* abrecord_type;
+	NSString* phone;
+	NSInteger abrecord_id;
 }
 
 @property (nonatomic, copy) NSString* text;
+@property (nonatomic, copy) NSString* abrecord_type;
+@property (nonatomic, copy) NSString* phone;
+@property (nonatomic, assign) NSInteger abrecord_id;
+
++ (id)itemWithRecipient:(NSString*)text recordType:(NSString *) record_type phone:(NSString *)phone_number abrecordId:(NSInteger) record_id;
 
 + (id)itemWithText:(NSString*)text;
 + (id)itemWithText:(NSString*)text URL:(NSString*)URL;

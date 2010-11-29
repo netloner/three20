@@ -89,7 +89,9 @@
     shouldChangeCharactersInRange: (NSRange)range
                 replacementString: (NSString*)string {
 	//NSLog(@"in ttsearch shouldChangeCharactersInRange replace=> _%@_ , and currently got string => %@", string, textField.text);
-  if (![_textField shouldUpdate:!string.length]) {
+  //WTF!! Edit by Edward , Need to check if it's Chinese
+
+  if (![_textField shouldUpdate:(!string.length && range.length == 1)]) {
     return NO;
   }
 

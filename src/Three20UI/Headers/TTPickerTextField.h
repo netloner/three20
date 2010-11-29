@@ -25,12 +25,14 @@
   TTPickerViewCell* _selectedCell;
   int               _lineCount;
   CGPoint           _cursorOrigin;
+	id				_projectDelegate;
 }
 
 @property (nonatomic, readonly) NSArray*          cellViews;
 @property (nonatomic, readonly) NSArray*          cells;
 @property (nonatomic, assign)   TTPickerViewCell* selectedCell;
 @property (nonatomic, readonly) int               lineCount;
+@property (nonatomic, assign)   id                projectDelegate;
 
 - (void)addCellWithObject:(id)object;
 

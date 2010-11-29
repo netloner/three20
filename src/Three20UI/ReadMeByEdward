@@ -1,0 +1,20 @@
+By Edward =>
+
+  TTSearchTextField How to autosearch?
+  Ans:   TTSearchTextFieldInternal textField  shouldChangeCharactersInRange => 
+		 TTSearchTextField shouldUpdate =>
+		                   dealyedUpdate => 
+						   dispatchUpdate => 
+						   self autosearch => 
+						   self search => 
+						   Mock search => fakeSearch
+
+		 And in MockDatasource fakeSearch:
+		 
+		         [_delegates perform:@selector(modelDidFinishLoad:) withObject:self];  (delegates are set by TTSearchTextField setDataSource method)
+				 
+				 => TTSearchTextField modelDidFinishLoad =>  [self reloadTable]; 
+				 
+				 => tableViewDidLoadModel => MockSearchDataSource or MockDatasource tableViewDidLoadModel (searching core codes are listed here.)
+				 
+				 
