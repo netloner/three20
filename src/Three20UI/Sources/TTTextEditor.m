@@ -184,8 +184,20 @@ static const CGFloat kUITextViewVerticalPadding = 6;
   CGFloat oldHeight = self.height;
   CGFloat newHeight = [self heightThatFits:&_overflowed numberOfLines:&numberOfLines];
   CGFloat diff = newHeight - oldHeight;
-
+	//By Edward, fix chinese input 
+	if ( !_textField.hidden) {
+		//NSLog(@"tttextEditor constrainToText numberOfLines > 1");
+		[self createTextView];
+		_textField.hidden = YES;
+		_textView.hidden = NO;
+		_textView.text = _textField.text;
+		_internal.ignoreBeginAndEnd = YES;
+		[_textView becomeFirstResponder];
+		[self performSelector:@selector(stopIgnoringBeginAndEnd) withObject:nil afterDelay:0];
+	} 
+/*	
   if (numberOfLines > 1 && !_textField.hidden) {
+	  NSLog(@"tttextEditor constrainToText numberOfLines > 1");
     [self createTextView];
     _textField.hidden = YES;
     _textView.hidden = NO;
@@ -194,6 +206,7 @@ static const CGFloat kUITextViewVerticalPadding = 6;
     [_textView becomeFirstResponder];
     [self performSelector:@selector(stopIgnoringBeginAndEnd) withObject:nil afterDelay:0];
   } else if (numberOfLines == 1 && _textField.hidden) {
+	  NSLog(@"tttextEditor constrainToText numberOfLines = 1");  
     _textField.hidden = NO;
     _textView.hidden = YES;
     _textField.text = _textView.text;
@@ -201,7 +214,7 @@ static const CGFloat kUITextViewVerticalPadding = 6;
     [_textField becomeFirstResponder];
     [self performSelector:@selector(stopIgnoringBeginAndEnd) withObject:nil afterDelay:0];
   }
-
+*/
   _textView.overflowed = _overflowed;
   _textView.scrollEnabled = _overflowed;
 

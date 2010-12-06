@@ -96,6 +96,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range
  replacementText:(NSString *)text {
+	//NSLog(@"In tttexteditorInternal shouldChangeTextInRange => replaceTxt:%@",text);
   if ([text isEqualToString:@"\n"]) {
     if ([_delegate respondsToSelector:@selector(textEditorShouldReturn:)]) {
       if (![_delegate performSelector:@selector(textEditorShouldReturn:) withObject:_textEditor]) {

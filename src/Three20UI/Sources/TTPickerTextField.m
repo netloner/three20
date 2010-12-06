@@ -504,6 +504,7 @@ static const CGFloat kMinCursorWidth  = 50;
 	if ([self.delegate respondsToSelector:sel]) {
 		[self.delegate performSelector:sel withObject:self withObject:(id)_cellViews.count-1];
 	}
+	
 }
 
 
