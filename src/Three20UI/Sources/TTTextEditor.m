@@ -67,6 +67,8 @@ static const CGFloat kUITextViewVerticalPadding = 6;
     _textField = [[UITextField alloc] init];
     _textField.delegate = _internal;
     [self addSubview:_textField];
+	//By Edward
+	[self createTextView];
   }
 
   return self;
@@ -187,7 +189,7 @@ static const CGFloat kUITextViewVerticalPadding = 6;
 	//By Edward, fix chinese input 
 	if ( !_textField.hidden) {
 		//NSLog(@"tttextEditor constrainToText numberOfLines > 1");
-		[self createTextView];
+		//[self createTextView];
 		_textField.hidden = YES;
 		_textView.hidden = NO;
 		_textView.text = _textField.text;
@@ -245,7 +247,7 @@ static const CGFloat kUITextViewVerticalPadding = 6;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)didChangeText:(BOOL)insertReturn {
   if (insertReturn) {
-    [self createTextView];
+    //[self createTextView];
     _textField.hidden = YES;
     _textView.hidden = NO;
     _textView.text = [_textField.text stringByAppendingString:@"\n"];
