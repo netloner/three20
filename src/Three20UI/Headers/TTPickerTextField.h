@@ -34,6 +34,8 @@
 @property (nonatomic, readonly) int               lineCount;
 @property (nonatomic, assign)   id                projectDelegate;
 
+-(void) updateScrollViewHeight;
+
 - (void)addCellWithObject:(id)object;
 
 - (void)removeCellWithObject:(id)object;

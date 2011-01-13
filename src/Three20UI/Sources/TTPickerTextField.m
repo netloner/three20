@@ -206,6 +206,7 @@ static const CGFloat kMinCursorWidth  = 50;
 #pragma mark By Edward
 
 -(void) updateScrollViewHeight{
+	//NSLog(@"!!!!!!updateing scroll view height");
 	CGFloat smsToolbarY;
     UIScrollView* scrollView = (UIScrollView*)[self ancestorOrSelfWithClass:[UIScrollView class]];
 	for (UIView* view in scrollView.superview.subviews) {
@@ -249,7 +250,7 @@ static const CGFloat kMinCursorWidth  = 50;
     }
   }
 
-  [super layoutSubviews];
+  [super layoutSubviews];	
 }
 
 
@@ -267,6 +268,15 @@ static const CGFloat kMinCursorWidth  = 50;
 	//[self updateHeight];
 	return YES;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (BOOL)resignFirstResponder {
+	NSLog(@"EdwTest => in ttpicker resignFirstResponder");
+	[super resignFirstResponder];
+	[self updateScrollViewHeight];
+	return YES;
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
 	//NSLog(@"In TTPickerTextfield.m, touchesBegan.....");
