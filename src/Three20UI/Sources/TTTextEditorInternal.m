@@ -47,6 +47,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
+	//NSLog(@"in textViewShouldBeginEditing => %@", textView.text);
   if (!_ignoreBeginAndEnd
       && [_delegate respondsToSelector:@selector(textEditorShouldBeginEditing:)]) {
     return [_delegate textEditorShouldBeginEditing:_textEditor];
@@ -59,6 +60,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView {
+	//NSLog(@"in textViewShouldEndEditing => %@", textView.text);	
   if (!_ignoreBeginAndEnd
       && [_delegate respondsToSelector:@selector(textEditorShouldEndEditing:)]) {
     return [_delegate textEditorShouldEndEditing:_textEditor];
@@ -71,6 +73,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)textViewDidBeginEditing:(UITextView *)textView {
+		//NSLog(@"in textViewDidBeginEditing => %@", textView.text);	
   if (!_ignoreBeginAndEnd) {
     [_textEditor performSelector:@selector(didBeginEditing)];
 
@@ -96,6 +99,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range
  replacementText:(NSString *)text {
+	
 	//NSLog(@"In tttexteditorInternal shouldChangeTextInRange => replaceTxt:%@",text);
   if ([text isEqualToString:@"\n"]) {
     if ([_delegate respondsToSelector:@selector(textEditorShouldReturn:)]) {
@@ -115,6 +119,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)textViewDidChange:(UITextView *)textView {
+	//NSLog(@"in ttextinternal textViewDidChange");
   [_textEditor performSelector:@selector(didChangeText:) withObject:NO];
 
   if ([_delegate respondsToSelector:@selector(textEditorDidChange:)]) {

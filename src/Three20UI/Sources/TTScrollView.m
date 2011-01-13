@@ -1212,18 +1212,18 @@ static const CGFloat kFrameDuration = 1.0/40.0;
 
   /*** DEBUG *
 
-  NSLog( @"page-with: %f", self.pageWidth );
-  NSLog( @"resized-width: %f", newStretched.width);
-  NSLog( @"old-width: %f", self.stretchedWidth);
-  NSLog( @"actual left: %f", _pageEdges.left );
-  NSLog( @"actual right: %f", _pageEdges.right );
-  NSLog( @"touch: %f", anchorPoint.x);
-  NSLog( @"point: %f", anchorPoint.x);
-  NSLog( @"B: %f", scaledRanges.x);
-  NSLog( @"C: %f", normalRanges.x);
-  NSLog( @"left: %f", edges.left);
-  NSLog( @"right: %f", edges.right);
-  NSLog( @"/////////////////////////////////////////////////////////////////////////////////");
+  //NSLog( @"page-with: %f", self.pageWidth );
+  //NSLog( @"resized-width: %f", newStretched.width);
+  //NSLog( @"old-width: %f", self.stretchedWidth);
+  //NSLog( @"actual left: %f", _pageEdges.left );
+  //NSLog( @"actual right: %f", _pageEdges.right );
+  //NSLog( @"touch: %f", anchorPoint.x);
+  //NSLog( @"point: %f", anchorPoint.x);
+  //NSLog( @"B: %f", scaledRanges.x);
+  //NSLog( @"C: %f", normalRanges.x);
+  //NSLog( @"left: %f", edges.left);
+  //NSLog( @"right: %f", edges.right);
+  //NSLog( @"/////////////////////////////////////////////////////////////////////////////////");
 
   */
 
@@ -1261,8 +1261,8 @@ static const CGFloat kFrameDuration = 1.0/40.0;
   [super touchesBegan:touches withEvent:event];
 
   [self ensureTouches];
-  NSLog( @"_touchCount: %i", _touchCount );
-  NSLog( @"touches count: %i", [touches count] );
+  //NSLog( @"_touchCount: %i", _touchCount );
+  //NSLog( @"touches count: %i", [touches count] );
 
   if (_touchCount < 2) {
     [self stopAnimation:NO];

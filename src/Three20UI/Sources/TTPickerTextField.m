@@ -212,7 +212,7 @@ static const CGFloat kMinCursorWidth  = 50;
 		if ([view isKindOfClass:[UIToolbar class]]) {
 			UIToolbar *smsViewToolbar = (UIToolbar *)view;
 			smsToolbarY = smsViewToolbar.frame.origin.y;
-			NSLog(@"get toolbar y => %f", smsViewToolbar.frame.origin.y);
+			//NSLog(@"get toolbar y => %f", smsViewToolbar.frame.origin.y);
 		}
 	}	  
 	if (self.height > smsToolbarY) {
@@ -263,13 +263,13 @@ static const CGFloat kMinCursorWidth  = 50;
 -(BOOL) becomeFirstResponder{
 	[super becomeFirstResponder];
 	[self updateScrollViewHeight];
-	NSLog(@"TTPickerTextField becoming first responder!!");
+	//NSLog(@"TTPickerTextField becoming first responder!!");
 	//[self updateHeight];
 	return YES;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)touchesBegan:(NSSet*)touches withEvent:(UIEvent*)event {
-	NSLog(@"In TTPickerTextfield.m, touchesBegan.....");
+	//NSLog(@"In TTPickerTextfield.m, touchesBegan.....");
 	[super touchesBegan:touches withEvent:event];
 
  //Add by Edward
@@ -297,7 +297,7 @@ static const CGFloat kMinCursorWidth  = 50;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setText:(NSString*)text {
-	//NSLog(@"setText in TTPicker => __%@__",text);
+	////NSLog(@"setText in TTPicker => __%@__",text);
   if (_dataSource) {
     [self updateHeight];
   }
@@ -385,7 +385,7 @@ static const CGFloat kMinCursorWidth  = 50;
   CGFloat visibleHeight = [self heightWithLines:1];
   CGFloat keyboardHeight = withKeyboard ? TTKeyboardHeight() : 0;
   CGFloat tableHeight = TTScreenBounds().size.height - (y + visibleHeight + keyboardHeight);
-	NSLog(@"IN TTPickerTextField, rectForSearchResults, tableHeight => %f", tableHeight);
+	//NSLog(@"IN TTPickerTextField, rectForSearchResults, tableHeight => %f", tableHeight);
   return CGRectMake(0, 40, superview.frame.size.width, tableHeight+1);
 }
 
@@ -444,7 +444,7 @@ static const CGFloat kMinCursorWidth  = 50;
 			[self addCellWithObject:[self.projectDelegate createCellWithPhone:recivier]];
 		}
 	}
-	NSLog(@"TTPickerTextField textFieldDidEndEditing, lefted text => ___%@___", resultStr);
+	//NSLog(@"TTPickerTextField textFieldDidEndEditing, lefted text => ___%@___", resultStr);
   if (_selectedCell) {
     self.selectedCell = nil;
   }
@@ -486,7 +486,7 @@ static const CGFloat kMinCursorWidth  = 50;
 		  
 	if (!isExist) {
 		TTPickerViewCell* cell = [[[TTPickerViewCell alloc] init] autorelease];
-		NSLog(@"in TTPickerTextField.m, addCellWithObject =>%@", object);
+		//NSLog(@"in TTPickerTextField.m, addCellWithObject =>%@", object);
 		NSString* label = [self labelForObject:object];
 		
 		cell.object = object;
@@ -576,7 +576,7 @@ static const CGFloat kMinCursorWidth  = 50;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)scrollToVisibleLine:(BOOL)animated {
-//	NSLog(@"IN TTPicker scrollToVisibleLine");
+//	//NSLog(@"IN TTPicker scrollToVisibleLine");
 //  if (self.editing) {
 //    UIScrollView* scrollView = (UIScrollView*)[self ancestorOrSelfWithClass:[UIScrollView class]];
 //    if (scrollView) {
@@ -588,7 +588,7 @@ static const CGFloat kMinCursorWidth  = 50;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)scrollToEditingLine:(BOOL)animated {
-	//NSLog(@"IN TTPicker scrollToEditingLine");	
+	////NSLog(@"IN TTPicker scrollToEditingLine");	
   UIScrollView* scrollView = (UIScrollView*)[self ancestorOrSelfWithClass:[UIScrollView class]];
   if (scrollView) {
     CGFloat offset = _lineCount == 1 ? 0 : [self topOfLine:_lineCount-1];

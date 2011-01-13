@@ -118,7 +118,7 @@ static const CGFloat kDesiredTableHeight = 150;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)showDarkScreen:(BOOL)show {
-  NSLog(@"In TTSearchField => showDarkScreen");
+  //NSLog(@"In TTSearchField => showDarkScreen");
   if (show && !_screenView) {
     _screenView = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
     _screenView.backgroundColor = TTSTYLEVAR(screenBackgroundColor);
@@ -166,7 +166,7 @@ static const CGFloat kDesiredTableHeight = 150;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)dispatchUpdate:(NSTimer*)timer {
-	//NSLog(@"delayed 0.3sec => %@", self.text);
+	////NSLog(@"delayed 0.3sec => %@", self.text);
   _searchTimer = nil;
   [self autoSearch];
 }
@@ -194,15 +194,15 @@ static const CGFloat kDesiredTableHeight = 150;
 
   [_dataSource tableViewDidLoadModel:self.tableView];
 	
-	//NSLog(@"in TTSearchTextField.m, reloadTable");
+	////NSLog(@"in TTSearchTextField.m, reloadTable");
   if ([self hasSearchResults]) {
-	NSLog(@"in TTSearchTextField.m, hasSearchResults");	  
+	//NSLog(@"in TTSearchTextField.m, hasSearchResults");	  
     [self layoutIfNeeded];
 	  
     [self showSearchResults:YES];
     [self.tableView reloadData];
   } else {
-	NSLog(@"in TTSearchTextField.m, !hasSearchResults");  
+	//NSLog(@"in TTSearchTextField.m, !hasSearchResults");  
     [self showSearchResults:NO];
   }
 }
@@ -247,7 +247,7 @@ static const CGFloat kDesiredTableHeight = 150;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setText:(NSString*)text {
   [super setText:text];
-	NSLog(@"in TTSearch setText: %@",text);
+	//NSLog(@"in TTSearch setText: %@",text);
   [self autoSearch];
 }
 
@@ -272,7 +272,7 @@ static const CGFloat kDesiredTableHeight = 150;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath {
-	NSLog(@"In TTSearchField.m, table view didSelectRowAtIndexPath=>%@",  [_dataSource tableView:tableView objectForRowAtIndexPath:indexPath]);
+	//NSLog(@"In TTSearchField.m, table view didSelectRowAtIndexPath=>%@",  [_dataSource tableView:tableView objectForRowAtIndexPath:indexPath]);
   if ([_internal.delegate respondsToSelector:@selector(textField:didSelectObject:)]) {
     id object = [_dataSource tableView:tableView objectForRowAtIndexPath:indexPath];
     UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
@@ -328,16 +328,16 @@ static const CGFloat kDesiredTableHeight = 150;
     UIScrollView* scrollView = (UIScrollView*)[self ancestorOrSelfWithClass:[UIScrollView class]];
     //scrollView.scrollEnabled = NO;
     scrollView.scrollsToTop = NO;
-	NSLog(@"in TTSearchTextField.m, didBeginEditing");
+	//NSLog(@"in TTSearchTextField.m, didBeginEditing");
     if (_showsDoneButton) {
       [self showDoneButton:YES];
     }
     if (_showsDarkScreen) {
-			NSLog(@"in TTSearchTextField.m, didBeginEditing, _showsDarkScreen = YES");
+			//NSLog(@"in TTSearchTextField.m, didBeginEditing, _showsDarkScreen = YES");
       [self showDarkScreen:YES];
     }
     if (self.hasText && self.hasSearchResults) {
-			NSLog(@"in TTSearchTextField.m, didBeginEditing, hasTextb = YES");
+			//NSLog(@"in TTSearchTextField.m, didBeginEditing, hasTextb = YES");
       [self showSearchResults:YES];
     }
   }
@@ -346,7 +346,7 @@ static const CGFloat kDesiredTableHeight = 150;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)didEndEditing {
-  NSLog(@"in TTSearchTextField.m, didEndEditing");
+  //NSLog(@"in TTSearchTextField.m, didEndEditing");
   if (_dataSource) {
     UIScrollView* scrollView = (UIScrollView*)[self ancestorOrSelfWithClass:[UIScrollView class]];
     scrollView.scrollsToTop = YES;
@@ -426,7 +426,7 @@ static const CGFloat kDesiredTableHeight = 150;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)showSearchResults:(BOOL)show {
-  NSLog(@"in TTSearchTextField.m, showSearchResults");
+  //NSLog(@"in TTSearchTextField.m, showSearchResults");
   if (show && _dataSource) {
     self.tableView;
 
@@ -489,7 +489,7 @@ static const CGFloat kDesiredTableHeight = 150;
   CGFloat height = self.height;
   CGFloat keyboardHeight = withKeyboard ? TTKeyboardHeight() : 0;
   CGFloat tableHeight = self.window.height - (self.ttScreenY + height + keyboardHeight);
-  NSLog(@"in TTSearchTextField.m, rectForSearchResults, tableHeight => %f", tableHeight);
+  //NSLog(@"in TTSearchTextField.m, rectForSearchResults, tableHeight => %f", tableHeight);
   return CGRectMake(0, y + self.height-1, superview.frame.size.width, tableHeight+1);
 }
 
