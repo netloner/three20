@@ -476,7 +476,7 @@ static const CGFloat kMinCursorWidth  = 50;
 - (void)addCellWithObject:(id)object {
 
 	BOOL isExist = NO;
-	if ([[object abrecord_type] isEqualToString:@"contact"] || [[object abrecord_type] isEqualToString:@"group"]) {
+	if ([[object abrecord_type] isEqualToString:@"group"]) {
 		for (TTTableTextItem * cell in self.cells) {
 			if (cell.abrecord_id > 0) {
 				if (cell.abrecord_id == [object abrecord_id]) {
