@@ -1,5 +1,5 @@
 //
-// Copyright 2009-2010 Facebook
+// Copyright 2009-2011 Facebook
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,6 +16,9 @@
 
 #import "Three20UI/private/TTTextEditorInternal.h"
 
+// Core
+#import "Three20Core/TTCorePreprocessorMacros.h"
+
 // UI
 #import "Three20UI/TTTextEditorDelegate.h"
 
@@ -23,6 +26,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+TT_FIX_CATEGORY_BUG(TTTextEditorInternal)
+
 @implementation TTTextEditorInternal
 
 @synthesize ignoreBeginAndEnd = _ignoreBeginAndEnd;
@@ -109,8 +114,10 @@
     }
   }
 
-  if ([_delegate respondsToSelector:@selector(textEditor:shouldChangeTextInRange:replacementText:)]) {
+  if ([_delegate respondsToSelector:
+       @selector(textEditor:shouldChangeTextInRange:replacementText:)]) {
     return [_delegate textEditor:_textEditor shouldChangeTextInRange:range replacementText:text];
+
   } else {
     return YES;
   }
@@ -141,7 +148,8 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (BOOL)textFieldShouldBeginEditing:(UITextField*)textField {
-  if (!_ignoreBeginAndEnd && [_delegate respondsToSelector:@selector(textEditorShouldBeginEditing:)]) {
+  if (!_ignoreBeginAndEnd
+      && [_delegate respondsToSelector:@selector(textEditorShouldBeginEditing:)]) {
     return [_delegate textEditorShouldBeginEditing:_textEditor];
 
   } else {
@@ -152,8 +160,10 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (BOOL)textFieldShouldEndEditing:(UITextField*)textField {
-  if (!_ignoreBeginAndEnd && [_delegate respondsToSelector:@selector(textEditorShouldEndEditing:)]) {
+  if (!_ignoreBeginAndEnd
+      && [_delegate respondsToSelector:@selector(textEditorShouldEndEditing:)]) {
     return [_delegate textEditorShouldEndEditing:_textEditor];
+
   } else {
     return YES;
   }
@@ -189,7 +199,8 @@
     shouldChangeCharactersInRange: (NSRange)range
                 replacementString: (NSString*)string {
   BOOL shouldChange = YES;
-  if ([_delegate respondsToSelector:@selector(textEditor:shouldChangeTextInRange:replacementText:)]) {
+  if ([_delegate respondsToSelector:
+       @selector(textEditor:shouldChangeTextInRange:replacementText:)]) {
     shouldChange = [_delegate textEditor:_textEditor shouldChangeTextInRange:range
                          replacementText:string];
   }
