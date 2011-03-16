@@ -715,7 +715,7 @@
                                  color2:RGBCOLOR(14, 83, 187) width:1 next:
     [TTInsetStyle styleWithInset:UIEdgeInsetsMake(0, -1, 0, -1) next:
     [TTBoxStyle styleWithPadding:UIEdgeInsetsMake(8, 9, 8, 9) next:
-    [TTTextStyle styleWithFont:[UIFont boldSystemFontOfSize:15]
+    [TTTextStyle styleWithFont:[UIFont boldSystemFontOfSize:14]
                  color:textColor shadowColor:[UIColor colorWithWhite:0 alpha:0.3]
                  shadowOffset:CGSizeMake(0, -1) next:nil]]]]]]]];
 }

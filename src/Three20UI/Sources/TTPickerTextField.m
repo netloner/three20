@@ -31,6 +31,9 @@
 // Core
 #import "Three20Core/TTCorePreprocessorMacros.h"
 
+
+#define TAG_toolbar 3838
+
 static NSString* kEmpty = @" ";
 static NSString* kSelected = @"`";
 
@@ -211,8 +214,8 @@ static const CGFloat kMinCursorWidth  = 50;
 	CGFloat smsToolbarY;
     UIScrollView* scrollView = (UIScrollView*)[self ancestorOrSelfWithClass:[UIScrollView class]];
 	for (UIView* view in scrollView.superview.subviews) {
-		if ([view isKindOfClass:[UIToolbar class]]) {
-			UIToolbar *smsViewToolbar = (UIToolbar *)view;
+		if (view.tag == TAG_toolbar) {
+			TTView *smsViewToolbar = (TTView *)view;
 			smsToolbarY = smsViewToolbar.frame.origin.y;
 			//NSLog(@"get toolbar y => %f", smsViewToolbar.frame.origin.y);
 		}
