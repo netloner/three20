@@ -687,7 +687,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (TTStyle*)textBarTextField {
   return
-    [TTInsetStyle styleWithInset:UIEdgeInsetsMake(6, 0, 3, 6) next:
+    [TTInsetStyle styleWithInset:UIEdgeInsetsMake(6, 0, 3, 15) next:
     [TTShapeStyle styleWithShape:[TTRoundedRectangleShape shapeWithRadius:12.5] next:
     [TTInsetStyle styleWithInset:UIEdgeInsetsMake(1, 0, 1, 0) next:
     [TTShadowStyle styleWithColor:RGBACOLOR(255,255,255,0.4) blur:0 offset:CGSizeMake(0, 1) next:

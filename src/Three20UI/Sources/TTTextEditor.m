@@ -139,7 +139,10 @@ static const CGFloat kUITextViewVerticalPadding = 6;
   CGFloat maxHeight = _maxNumberOfLines * ttLineHeight;
   CGFloat maxWidth = self.width - kTextViewInset;
 
-  NSString* text = _textField.hidden ? _textView.text : _textField.text;
+  //By Edward => Fix Damn Paste multi-line text but not update height problem.
+  //NSString* text = _textField.hidden ? _textView.text : _textField.text;
+  NSString* text = _textView.text;
+
   if (!text.length) {
     text = @"M";
   }
