@@ -126,7 +126,7 @@
   UITableViewCell* cell =
     (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:identifier];
   if (cell == nil) {
-    cell = [[[cellClass alloc] initWithStyle:UITableViewCellStyleDefault
+    cell = [[[cellClass alloc] initWithStyle:UITableViewCellStyleValue1
                                reuseIdentifier:identifier] autorelease];
   }
   [identifier release];

@@ -124,7 +124,8 @@ static const UILineBreakMode kLineBreakMode = UILineBreakModeWordWrap;
 
     TTTableTextItem* item = object;
     self.textLabel.text = item.text;
-
+    self.detailTextLabel.text = item.detailedText;
+      
     if ([object isKindOfClass:[TTTableButton class]]) {
       self.textLabel.font = TTSTYLEVAR(tableButtonFont);
       self.textLabel.textColor = TTSTYLEVAR(linkTextColor);
@@ -156,6 +157,7 @@ static const UILineBreakMode kLineBreakMode = UILineBreakModeWordWrap;
       self.textLabel.font = TTSTYLEVAR(tableFont);
       self.textLabel.textColor = TTSTYLEVAR(textColor);
       self.textLabel.textAlignment = UITextAlignmentLeft;
+      self.detailTextLabel.font = TTSTYLEVAR(tableSmallFont);
     }
   }
 }

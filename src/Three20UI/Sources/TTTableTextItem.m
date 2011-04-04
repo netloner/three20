@@ -24,7 +24,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 @implementation TTTableTextItem
 
-@synthesize text = _text, abrecord_type, phone, abrecord_id;
+@synthesize text = _text, abrecord_type, phone, abrecord_id, detailedText;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,6 +32,7 @@
   TT_RELEASE_SAFELY(_text);
 	[abrecord_type release];
 	[phone release];
+    [detailedText release];
   [super dealloc];
 }
 
@@ -40,6 +41,17 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark -
 #pragma mark Class public
+
++ (id)itemWithRecipient:(NSString*)text recordType:(NSString *) record_type phone:(NSString *)phone_number abrecordId:(NSInteger) record_id withDetailText:(NSString *)detailtext{
+	TTTableTextItem* item = [[[self alloc] init] autorelease];
+	item.text = text;
+	item.abrecord_id = record_id;
+	item.abrecord_type = record_type;
+	item.phone = phone_number;
+    item.detailedText = detailtext;
+	return item;
+
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 + (id)itemWithRecipient:(NSString*)text recordType:(NSString *) record_type phone:(NSString *)phone_number abrecordId:(NSInteger) record_id{

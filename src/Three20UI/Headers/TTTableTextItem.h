@@ -22,14 +22,17 @@
 	NSString* abrecord_type;
 	NSString* phone;
 	NSInteger abrecord_id;
+    NSString* detailedText;
 }
 
 @property (nonatomic, copy) NSString* text;
 @property (nonatomic, copy) NSString* abrecord_type;
 @property (nonatomic, copy) NSString* phone;
+@property (nonatomic, copy) NSString* detailedText;
 @property (nonatomic, assign) NSInteger abrecord_id;
 
 + (id)itemWithRecipient:(NSString*)text recordType:(NSString *) record_type phone:(NSString *)phone_number abrecordId:(NSInteger) record_id;
++ (id)itemWithRecipient:(NSString*)text recordType:(NSString *) record_type phone:(NSString *)phone_number abrecordId:(NSInteger) record_id withDetailText:(NSString *)detailtext;
 
 + (id)itemWithText:(NSString*)text;
 + (id)itemWithText:(NSString*)text URL:(NSString*)URL;
