@@ -487,6 +487,11 @@ static const CGFloat kMinCursorWidth  = 50;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)addCellWithObject:(id)object {
+    
+    if (!object) {
+        self.text = kEmpty;
+        return;
+    }
 
 	BOOL isExist = NO;
 	if ([[object abrecord_type] isEqualToString:@"group"]) {
