@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		37244A3E132DE2760099E853 /* RegexKitLite.h in Headers */ = {isa = PBXBuildFile; fileRef = 37244A3C132DE2760099E853 /* RegexKitLite.h */; };
-		37244A3F132DE2760099E853 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 37244A3D132DE2760099E853 /* RegexKitLite.m */; };
 		666E18E912945430001C1D97 /* TTSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 666E18E712945430001C1D97 /* TTSplitViewController.m */; };
 		666E18F51294543F001C1D97 /* TTSplitViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 666E18F41294543F001C1D97 /* TTSplitViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		66ADC8C91290AC0200855386 /* TTExtensionsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66ADC8C61290AC0200855386 /* TTExtensionsController.m */; };
@@ -435,8 +433,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		37244A3C132DE2760099E853 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
-		37244A3D132DE2760099E853 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		666E18E712945430001C1D97 /* TTSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTSplitViewController.m; path = Sources/TTSplitViewController.m; sourceTree = "<group>"; };
 		666E18F41294543F001C1D97 /* TTSplitViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTSplitViewController.h; path = Headers/TTSplitViewController.h; sourceTree = "<group>"; };
 		66ADC8C61290AC0200855386 /* TTExtensionsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTExtensionsController.m; path = Sources/TTExtensionsController.m; sourceTree = "<group>"; };
@@ -754,8 +750,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				37244A3C132DE2760099E853 /* RegexKitLite.h */,
-				37244A3D132DE2760099E853 /* RegexKitLite.m */,
 				6E6454731184D2CD00F08CB1 /* Three20UI.h */,
 				6E6454921184D3ED00F08CB1 /* Three20UI+Additions.h */,
 				6E6458CB11875F8400F08CB1 /* Three20UI_Prefix.pch */,
@@ -1865,7 +1859,6 @@
 				666E18F51294543F001C1D97 /* TTSplitViewController.h in Headers */,
 				66F2E85412D426A5006FB485 /* TTTableFooterInfiniteScrollView.h in Headers */,
 				66F2E85F12D426DA006FB485 /* TTTableViewNetworkEnabledDelegate.h in Headers */,
-				37244A3E132DE2760099E853 /* RegexKitLite.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2226,7 +2219,6 @@
 				666E18E912945430001C1D97 /* TTSplitViewController.m in Sources */,
 				66F2E85712D426AF006FB485 /* TTTableFooterInfiniteScrollView.m in Sources */,
 				66F2E86512D426EF006FB485 /* TTTableViewNetworkEnabledDelegate.m in Sources */,
-				37244A3F132DE2760099E853 /* RegexKitLite.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2325,6 +2317,7 @@
 				PREBINDING = NO;
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../31SMS/Classes/regexkitlite";
 			};
 			name = Internal;
 		};
@@ -2356,6 +2349,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				PREBINDING = NO;
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../31SMS/Classes/regexkitlite";
 			};
 			name = Debug;
 		};
@@ -2368,6 +2362,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PREBINDING = NO;
 				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/../../../31SMS/Classes/regexkitlite";
 				ZERO_LINK = NO;
 			};
 			name = Release;
