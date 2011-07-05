@@ -38,6 +38,7 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)draw:(TTStyleContext*)context {
+    NSLog(@"TTInerShadowStyle draw");
   CGContextRef ctx = UIGraphicsGetCurrentContext();
   CGContextSaveGState(ctx);
 
@@ -51,10 +52,10 @@
   // write this, but a lot of research has failed to turn up a way to detect the flipped shadow
   // programmatically
   float shadowYOffset = -_offset.height;
-  NSString *osVersion = [UIDevice currentDevice].systemVersion;
-  if ([osVersion versionStringCompare:@"3.2"] != NSOrderedAscending) {
-    shadowYOffset = _offset.height;
-  }
+//  NSString *osVersion = [UIDevice currentDevice].systemVersion;
+//  if ([osVersion versionStringCompare:@"3.2"] != NSOrderedAscending) {
+//    shadowYOffset = _offset.height;
+//  }
 
   CGContextSetShadowWithColor(ctx, CGSizeMake(_offset.width, shadowYOffset), _blur,
                               _color.CGColor);
