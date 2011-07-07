@@ -210,14 +210,14 @@ static const CGFloat kMinCursorWidth  = 50;
 #pragma mark By Edward
 
 -(void) updateScrollViewHeight{
-	NSLog(@"!!!!!!updateing scroll view height");
+	//NSLog(@"!!!!!!updateing scroll view height");
 	CGFloat smsToolbarY;
     UIScrollView* scrollView = (UIScrollView*)[self ancestorOrSelfWithClass:[UIScrollView class]];
 	for (UIView* view in scrollView.superview.subviews) {
 		if (view.tag == TAG_toolbar) {
 			TTView *smsViewToolbar = (TTView *)view;
 			smsToolbarY = smsViewToolbar.frame.origin.y;
-			NSLog(@"get toolbar y => %f", smsViewToolbar.frame.origin.y);
+			//NSLog(@"get toolbar y => %f", smsViewToolbar.frame.origin.y);
 		}
 	}	  
 	if (self.height > smsToolbarY) {
