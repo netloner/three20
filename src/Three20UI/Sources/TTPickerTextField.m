@@ -457,9 +457,10 @@ static const CGFloat kMinCursorWidth  = 50;
 - (void)textFieldDidEndEditing {
     NSCharacterSet* whitespace = [NSCharacterSet whitespaceCharacterSet];
 	self.text = [self.text stringByTrimmingCharactersInSet:whitespace];	
-	NSString * resultStr = [self.text stringByReplacingOccurrencesOfRegex:@"\\s+" withString:@":"];
-	resultStr = [resultStr stringByReplacingOccurrencesOfRegex:@"(,|;|\\.)" withString:@":"];
+	NSString * resultStr = self.text;
+	resultStr = [resultStr stringByReplacingOccurrencesOfRegex:@"(,|;)" withString:@":"];
 	resultStr = [resultStr stringByReplacingOccurrencesOfRegex:@"-" withString:@""];	
+	resultStr = [resultStr stringByReplacingOccurrencesOfRegex:@"\\." withString:@""];
 	resultStr = [resultStr stringByReplacingOccurrencesOfRegex:@":+" withString:@":"];	
 	NSArray *reciviers = [resultStr componentsSeparatedByString: @":"];
 	for (NSString *recivier  in reciviers) {
