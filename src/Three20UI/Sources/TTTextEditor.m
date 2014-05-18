@@ -40,7 +40,7 @@ static const CGFloat kPaddingY = 9;
 // with 15pt normal helvetica.  If you change this number at all, UITextView may wrap the text
 // before or after the TTTextEditor expands or contracts its height to match.  Obviously,
 // hard-coding this value here sucks, and I need to implement a solution that works for any font.
-static const CGFloat kTextViewInset = 31;
+static const CGFloat kTextViewInset = 33;
 
 static const CGFloat kUITextViewVerticalPadding = 6;
 
@@ -149,7 +149,7 @@ static const CGFloat kUITextViewVerticalPadding = 6;
 
   CGSize textSize = [text sizeWithFont:self.font
                           constrainedToSize:CGSizeMake(maxWidth, CGFLOAT_MAX)
-                          lineBreakMode:UILineBreakModeWordWrap];
+                          lineBreakMode:NSLineBreakByWordWrapping];
 
   CGFloat newHeight = textSize.height;
   if ([text characterAtIndex:text.length-1] == 10) {
@@ -174,7 +174,8 @@ static const CGFloat kUITextViewVerticalPadding = 6;
     newHeight = maxHeight;
   }
 
-  return newHeight + kPaddingY*2;
+    
+  return newHeight + kPaddingY*4;
 }
 
 
